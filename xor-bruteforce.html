@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>JS safe v2.0 - bruteforce</title>
+
+<script>
+
+	ord=Function.prototype.call.bind(''.charCodeAt);
+	chr=String.fromCharCode;str=String;
+
+	function c(a,b,c){
+		for(i=0;i!=a.length;i++)
+			c=(c||'')+chr(ord(str(a[i]))^ord(str(b[i%b.length])));
+		return c
+	}
+
+	function brute()
+	{
+	myreg=/^([0-9a-zA-Z_@!?-]+)$/
+	for(cha=0;cha<256;cha++){
+	console.log("in",cha)
+		for(chb=0;chb<256;chb++){
+			for(chc=0;chc<256;chc++){
+				for(chd=0;chd!=256;chd++){
+					mypass=c('¢×&Ê´cÊ¯¬$¶³´}ÍÈ´T©Ð8Í³Í|Ô÷aÈÐÝ&¨þJ',chr(cha)+chr(chb)+chr(chc)+chr(chd))
+					  if (myreg.test(mypass)){
+					  console.log (cha,chb,chc,chd,mypass);
+					  document.getElementById('res').innerHTML += '<br>password=' +mypass+'a='+cha+' b='+chb+' c='+chc+' d='+chd;
+
+					  }
+					  else{
+					  	if (!(myreg.test(mypass.substr(0,1))) || !(myreg.test(mypass.substr(4,1))) || !(myreg.test(mypass.substr(8,1)))|| !(myreg.test(mypass.substr(12,1)))){
+						cha++;
+						chb=0;
+						chc=0;
+						chd=-1;
+
+						}
+						
+						else if (!(myreg.test(mypass.substr(1,1))) || !(myreg.test(mypass.substr(5,1))) || !(myreg.test(mypass.substr(9,1))))
+						{
+						chb++;
+						chc=0;
+						chd=-1;
+						}
+						else if (!(myreg.test(mypass.substr(2,1))) || !(myreg.test(mypass.substr(6,1))) || !(myreg.test(mypass.substr(10,1))))
+						{
+						chc++;
+						chd=-1;
+						}
+					  }
+
+				}
+
+			}
+
+		}
+	}
+}
+</script>
+    </head>
+    <body>
+        <div>
+		 <button type="button" onclick="brute()">Run!</button>
+
+        <div id='res'>
+		</div>
+        </div>
+    </body>
+</html>
